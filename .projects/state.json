@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "providers": {
+    "customerio": {
+      "name": "customerio"
+    }
+  },
+  "resources": {
+    "customerio-workspace": {
+      "livemode": true,
+      "name": "customerio-workspace",
+      "providerName": "customerio",
+      "serviceId": "workspace"
+    }
+  }
+}
