@@ -1,56 +1,108 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Weekly Trail Challenge</title>
+<title>Trail Challenge</title>
+<meta name="description" content="Log your trail runs, climb the weekly leaderboard.">
 <style>
-:root{--primary:#ff385c;--primary-active:#e00b41;--ink:#222;--body:#3f3f3f;--muted:#6a6a6a;--hair:#ddd;--soft:#f7f7f7;--r-lg:14px}
-*{box-sizing:border-box}
+:root{--primary:#ff385c;--primary-d:#e00b41;--ink:#222;--body:#3f3f3f;--muted:#6a6a6a;--hair:#ddd;--soft:#f7f7f7;--r:14px;--pine:#0f3d2e;--pine2:#1c6b4f}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;font-family:'Airbnb Cereal VF',Circular,-apple-system,system-ui,Roboto,'Helvetica Neue',sans-serif;color:var(--body);background:#fff;line-height:1.5}
-header{border-bottom:1px solid var(--hair);padding:16px 24px;display:flex;align-items:center;gap:8px}
-header b{color:var(--primary);font-size:20px;font-weight:700}
-.hero{max-width:1080px;margin:0 auto;padding:48px 24px 24px}
-.hero h1{font-size:28px;font-weight:700;color:var(--ink);margin:0 0 8px;line-height:1.3}
-.hero p{margin:0;color:var(--muted);font-size:16px}
-.grid{max-width:1080px;margin:0 auto;padding:24px;display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
-.card{background:#fff;border:1px solid var(--hair);border-radius:var(--r-lg);padding:24px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.card h2{font-size:20px;font-weight:600;color:var(--ink);margin:0 0 4px;letter-spacing:-.18px}
-.card .sub{font-size:14px;color:var(--muted);margin:0 0 16px}
-label{display:block;font-size:12px;font-weight:600;color:var(--ink);margin:0 0 4px}
-input{width:100%;font:inherit;font-size:16px;padding:12px 14px;border:1px solid var(--hair);border-radius:8px;margin-bottom:12px;color:var(--ink)}
+a{color:inherit}
+nav{position:absolute;top:0;left:0;right:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:20px 28px;color:#fff}
+nav b{font-size:20px;letter-spacing:-.3px}nav a{text-decoration:none;font-weight:600;font-size:14px;padding:8px 16px;border:1px solid rgba(255,255,255,.5);border-radius:99px}
+nav a:hover{background:rgba(255,255,255,.15)}
+.hero{position:relative;overflow:hidden;color:#fff;padding:140px 24px 150px;text-align:center;background:linear-gradient(180deg,#ff7a59 0%,#ff385c 38%,#8a1b4f 100%)}
+.sun{position:absolute;width:260px;height:260px;border-radius:50%;left:50%;top:70px;transform:translateX(-50%);background:radial-gradient(circle,#ffe29a 0%,#ffb45e 55%,rgba(255,180,94,0) 72%);opacity:.9;animation:pulse 6s ease-in-out infinite}
+@keyframes pulse{50%{transform:translateX(-50%) scale(1.08);opacity:1}}
+.hero svg{position:absolute;bottom:-1px;left:0;width:100%;height:auto;display:block}
+.hero .in{position:relative;z-index:2;max-width:760px;margin:0 auto}
+.pill{display:inline-block;font-size:13px;font-weight:600;background:rgba(255,255,255,.18);backdrop-filter:blur(6px);padding:6px 14px;border-radius:99px;margin-bottom:20px}
+h1{font-size:clamp(38px,7vw,68px);line-height:1.05;margin:0 0 18px;font-weight:800;letter-spacing:-1.5px}
+.hero p{font-size:clamp(16px,2.4vw,20px);margin:0 auto 32px;max-width:560px;opacity:.95}
+.cta{display:inline-block;background:#fff;color:var(--primary-d);font-weight:700;text-decoration:none;padding:16px 32px;border-radius:99px;box-shadow:0 10px 30px rgba(0,0,0,.25);transition:transform .15s}
+.cta:hover{transform:translateY(-2px) scale(1.03)}
+.stats{max-width:900px;margin:-56px auto 0;position:relative;z-index:3;display:grid;grid-template-columns:repeat(3,1fr);background:#fff;border-radius:20px;box-shadow:0 12px 40px rgba(0,0,0,.14);overflow:hidden}
+.stats div{padding:24px 12px;text-align:center;border-right:1px solid var(--hair)}.stats div:last-child{border:0}
+.stats b{display:block;font-size:clamp(26px,5vw,40px);color:var(--ink);letter-spacing:-1px}
+.stats span{font-size:13px;color:var(--muted)}
+section.wrap{max-width:1080px;margin:0 auto;padding:72px 24px 0}
+h2{font-size:clamp(26px,4vw,34px);color:var(--ink);margin:0 0 8px;letter-spacing:-.8px}
+.lead{color:var(--muted);margin:0 0 32px}
+.steps{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.step{padding:24px;border-radius:var(--r);background:var(--soft)}
+.step i{font-style:normal;font-size:32px;display:block;margin-bottom:8px}.step h3{margin:0 0 4px;color:var(--ink);font-size:18px}.step p{margin:0;font-size:15px;color:var(--muted)}
+.grid{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));align-items:start}
+.card{background:#fff;border:1px solid var(--hair);border-radius:20px;padding:28px;box-shadow:0 6px 24px rgba(0,0,0,.06)}
+.card h3{margin:0 0 4px;font-size:22px;color:var(--ink);letter-spacing:-.4px}.card .sub{margin:0 0 20px;font-size:14px;color:var(--muted)}
+label{display:block;font-size:12px;font-weight:700;color:var(--ink);margin:0 0 6px}
+input{width:100%;font:inherit;font-size:16px;padding:14px;border:1px solid var(--hair);border-radius:10px;margin-bottom:14px;color:var(--ink)}
 input:focus{outline:2px solid var(--ink);border-color:var(--ink)}
-button{width:100%;font:inherit;font-weight:600;color:#fff;background:var(--primary);border:0;border-radius:8px;padding:14px;cursor:pointer;transition:background .15s,transform .1s}
-button:hover{background:var(--primary-active)}button:active{transform:scale(.98)}
-.price{font-size:32px;font-weight:700;color:var(--ink);margin-bottom:12px}.price small{font-size:14px;font-weight:400;color:var(--muted)}
+button{width:100%;font:inherit;font-weight:700;color:#fff;border:0;border-radius:10px;padding:15px;cursor:pointer;background:linear-gradient(90deg,var(--primary),#e61e4d 50%,#d70466);transition:transform .1s,filter .15s}
+button:hover{filter:brightness(1.07)}button:active{transform:scale(.98)}
+button.ghost{background:#fff;color:var(--ink);border:1px solid var(--hair)}
 #msg{display:block;margin-top:10px;font-size:14px;color:var(--muted);min-height:1.4em}
+.podium{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:10px;align-items:end;margin-bottom:20px}
+.pod{text-align:center;border-radius:14px 14px 0 0;padding:14px 6px;color:#fff;font-weight:700}
+.pod small{display:block;font-weight:500;opacity:.9}.pod .m{font-size:26px}
+.p1{background:linear-gradient(#ffc93c,#f59e0b);height:130px}.p2{background:linear-gradient(#cfd4da,#9aa3ad);height:105px}.p3{background:linear-gradient(#e0a370,#b9742f);height:90px}
+.pod .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 4px}
 table{width:100%;border-collapse:collapse}
-th{font-size:12px;color:var(--muted);text-align:left;font-weight:600;padding:8px 0;border-bottom:1px solid var(--hair)}
-td{padding:12px 0;border-bottom:1px solid #ebebeb;color:var(--ink)}
-td:last-child,th:last-child{text-align:right;font-weight:600}
-.rank{display:inline-block;width:26px;height:26px;line-height:26px;text-align:center;border-radius:50%;background:var(--soft);font-size:13px;font-weight:600}
-tr:first-child .rank{background:var(--primary);color:#fff}
-.empty{color:var(--muted);padding:16px 0}
+td{padding:12px 0;border-bottom:1px solid #ebebeb;color:var(--ink)}td:last-child{text-align:right;font-weight:700}
+.rank{display:inline-block;width:28px;height:28px;line-height:28px;text-align:center;border-radius:50%;background:var(--soft);font-size:13px;font-weight:700;margin-right:10px}
+.bar{height:6px;border-radius:9px;background:#f0f0f0;margin-top:6px}.bar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,var(--primary),#d70466)}
+.empty{color:var(--muted);padding:20px 0;text-align:center}
+footer{margin-top:80px;padding:32px 24px;text-align:center;color:var(--muted);font-size:14px;border-top:1px solid var(--hair)}
+.fade{opacity:0;transform:translateY(16px);animation:up .7s .1s forwards}@keyframes up{to{opacity:1;transform:none}}
+@media(max-width:560px){nav{padding:16px}.stats b{font-size:24px}.card{padding:22px}}
 </style></head><body>
-<header><b>🏔️ trail</b><span style="color:var(--muted)">Weekly Challenge</span></header>
-<div class="hero"><h1>Run more. Climb the leaderboard.</h1><p>Enter this week's trail challenge, log your kilometres, and see how you stack up.</p></div>
-<main class="grid">
- <section class="card" id="joinCard"><h2>Join the challenge</h2><p class="sub">Free entry for now. Just a quick sign-in.</p>
-  <label for="jname">Name</label><input id="jname" placeholder="Your name" autocomplete="name">
-  <label for="email">Email</label><input id="email" type="email" placeholder="you@example.com" autocomplete="email">
-  <button id="join">Enter challenge</button></section>
- <section class="card"><h2>Log a run</h2><p class="sub">Every kilometre counts</p>
-  <label for="user">Name</label><input id="user" placeholder="Your name">
-  <label for="km">Distance (km)</label><input id="km" type="number" step="0.1" min="0" placeholder="5.0">
-  <button id="log">Record run</button><span id="msg" role="status"></span></section>
- <section class="card"><h2>Leaderboard</h2><p class="sub">Total km this season</p><table id="lb"></table></section>
-</main>
+<nav><b>🏔️ trail</b><a href="#play">Join now</a></nav>
+<header class="hero">
+ <div class="sun"></div>
+ <div class="in fade"><span class="pill">🔥 Weekly challenge is live</span>
+  <h1>Run the trail.<br>Own the leaderboard.</h1>
+  <p>Log every kilometre, watch your rank climb, and compete with runners everywhere. Free to join.</p>
+  <a class="cta" href="#play">Start running →</a></div>
+ <svg viewBox="0 0 1440 220" preserveAspectRatio="none"><path fill="#1c6b4f" opacity=".55" d="M0 150 L160 70 L280 130 L430 40 L600 140 L760 60 L930 150 L1100 50 L1260 130 L1440 80 V220 H0Z"/><path fill="#0f3d2e" d="M0 190 L140 120 L260 170 L420 100 L580 180 L740 110 L900 185 L1080 105 L1240 175 L1440 130 V220 H0Z"/><path fill="#fff" d="M0 215 Q360 170 720 205 T1440 195 V220 H0Z"/></svg>
+</header>
+<div class="stats"><div><b id="sKm">0</b><span>km logged</span></div><div><b id="sRun">0</b><span>runners</span></div><div><b id="sTop">–</b><span>current leader</span></div></div>
+
+<section class="wrap"><h2>How it works</h2><p class="lead">Three steps. No gear check, no fee.</p>
+ <div class="steps">
+  <div class="step"><i>👤</i><h3>1. Sign in</h3><p>Pop in your name. That's your runner profile.</p></div>
+  <div class="step"><i>👟</i><h3>2. Log a run</h3><p>Finished a trail? Add the distance in kilometres.</p></div>
+  <div class="step"><i>🏆</i><h3>3. Climb the ranks</h3><p>Kilometres add up. Top three get the podium.</p></div>
+ </div></section>
+
+<section class="wrap" id="play"><h2>Your turn</h2><p class="lead">Sign in, log a run, see where you stand.</p>
+ <div class="grid">
+  <div>
+   <div class="card" id="joinCard"><h3>Join the challenge</h3><p class="sub">Free entry. Quick sign-in.</p>
+    <label for="jname">Name</label><input id="jname" placeholder="Your name" autocomplete="name">
+    <label for="email">Email</label><input id="email" type="email" placeholder="you@example.com" autocomplete="email">
+    <button id="join">Enter challenge</button></div>
+   <div class="card" style="margin-top:24px"><h3>Log a run</h3><p class="sub">Every kilometre counts.</p>
+    <label for="user">Name</label><input id="user" placeholder="Your name">
+    <label for="km">Distance (km)</label><input id="km" type="number" step="0.1" min="0" placeholder="5.0">
+    <button id="log">Record run</button><span id="msg" role="status"></span></div>
+  </div>
+  <div class="card"><h3>Leaderboard</h3><p class="sub">Total kilometres</p>
+   <div class="podium" id="pod"></div><table id="lb"></table></div>
+ </div></section>
+<footer>Built with Stripe, Supabase &amp; Vercel · Trail Challenge</footer>
+
 <script>
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const post=(u,b)=>fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).then(r=>r.json());
 const saved=()=>{try{return JSON.parse(localStorage.getItem('trailUser'))}catch(e){return null}};
-function showJoined(u){$('joinCard').innerHTML=`<h2>You're in, ${esc(u.name)}! 🎉</h2><p class="sub">Log your runs and climb the leaderboard.</p><button id="out" style="background:#fff;color:#222;border:1px solid #ddd">Sign out</button>`;$('user').value=u.name;$('out').onclick=()=>{try{localStorage.removeItem('trailUser')}catch(e){}location.reload()}}
+function showJoined(u){$('joinCard').innerHTML=`<h3>You're in, ${esc(u.name)}! 🎉</h3><p class="sub">Log your runs and climb the leaderboard.</p><button class="ghost" id="out">Sign out</button>`;$('user').value=u.name;$('out').onclick=()=>{try{localStorage.removeItem('trailUser')}catch(e){}location.reload()}}
 $('join').onclick=()=>{const name=$('jname').value.trim();if(!name){$('jname').focus();return}const u={name,email:$('email').value.trim()};try{localStorage.setItem('trailUser',JSON.stringify(u))}catch(e){}showJoined(u)};
 const u0=saved();if(u0)showJoined(u0);
-$('log').onclick=async()=>{const r=await post('/record-run',{user:$('user').value,distanceKm:+$('km').value});$('msg').textContent=r.message||r.error;if(r.message){$('km').value='';load()}};
-async function load(){const d=await (await fetch('/leaderboard')).json();const l=d.leaderboard||[];
-$('lb').innerHTML=l.length?'<tr><th>Rank</th><th>Runner</th><th>km</th></tr>'+l.map((x,i)=>`<tr><td><span class="rank">${i+1}</span></td><td>${esc(x.user)}</td><td>${x.total_km.toFixed(1)}</td></tr>`).join(''):'<tr><td class="empty">No runs yet. Be the first!</td></tr>'}
+$('log').onclick=async()=>{$('msg').textContent='Saving…';try{const r=await post('/record-run',{user:$('user').value,distanceKm:+$('km').value});$('msg').textContent=r.message?'✅ Run recorded!':r.error;if(r.message){$('km').value='';load()}}catch(e){$('msg').textContent='Could not reach server'}};
+function count(el,to,dec){const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/900);el.textContent=(to*p).toFixed(dec);if(p<1)requestAnimationFrame(f)})(t0)}
+async function load(){let l=[];try{const d=await (await fetch('/leaderboard')).json();l=d.leaderboard||[]}catch(e){}
+ const tot=l.reduce((a,x)=>a+x.total_km,0);count($('sKm'),tot,0);count($('sRun'),l.length,0);$('sTop').textContent=l[0]?l[0].user:'–';
+ const m=['🥇','🥈','🥉'],cls=['p1','p2','p3'],ord=[1,0,2];
+ $('pod').innerHTML=l.length>=1?ord.filter(i=>l[i]).map(i=>`<div class="pod ${cls[i]}"><div class="m">${m[i]}</div><div class="n">${esc(l[i].user)}</div><small>${l[i].total_km.toFixed(1)} km</small></div>`).join(''):'';
+ const max=l[0]?l[0].total_km:1;
+ $('lb').innerHTML=l.length?l.map((x,i)=>`<tr><td><span class="rank">${i+1}</span>${esc(x.user)}<div class="bar"><i style="width:${Math.max(4,x.total_km/max*100)}%"></i></div></td><td>${x.total_km.toFixed(1)} km</td></tr>`).join(''):'<tr><td class="empty">No runs yet. Be the first! 🏃</td></tr>'}
 load();
 </script></body></html>
