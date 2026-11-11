@@ -1,0 +1,28 @@
+{
+  "name": "stripe-trail-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rahulraj1406/stripe-trail-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/rahulraj1406/stripe-trail-app/issues"
+  },
+  "homepage": "https://github.com/rahulraj1406/stripe-trail-app#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.119.0",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
+    "stripe": "^23.1.0"
+  }
+}
